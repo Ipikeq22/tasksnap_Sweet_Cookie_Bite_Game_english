@@ -3,5 +3,5 @@ function startGame() {
 }
 
 function goHome() {
-    window.location.href = 'https://tasksnap-ytmctx95gflwfq9pxzje2z.streamlit.app';
+    window.location.href = 'https://tasksnap-englishmode-b2kk6dxliadpfkybawpo5u.streamlit.app/';
 }
