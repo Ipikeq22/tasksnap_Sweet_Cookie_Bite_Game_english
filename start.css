@@ -1,0 +1,299 @@
+/* CSS 是用來美化網頁外觀的樣式表語言 */
+
+/* 設定整個網頁的基本樣式 */
+body {
+    margin: 0;                                    /* 移除預設的外邊距 */
+    padding: 0;                                   /* 移除預設的內邊距 */
+    background-image: url('png/bg.png');          /* 設定背景圖片 */
+    background-size: cover;                       /* 背景圖片覆蓋整個畫面 */
+    background-position: center;                  /* 背景圖片置中 */
+    background-repeat: no-repeat;                 /* 背景圖片不重複 */
+    min-height: 100vh;                           /* 最小高度為整個視窗高度 (100vh = 100% viewport height) */
+    display: flex;                               /* 使用彈性盒子布局 */
+    flex-direction: column;                      /* 垂直排列子元素 */
+    justify-content: center;                     /* 垂直方向置中對齊 */
+    align-items: center;                         /* 水平方向置中對齊 */
+    font-family: Arial, sans-serif;              /* 設定字體為 Arial，備用字體為無襯線字體 */
+}
+
+/* 設定遊戲 Logo 的樣式 */
+.logo {
+    max-width: 600px;                           /* 最大寬度為 600 像素 */
+    width: 90%;                                 /* 寬度為容器的 90% */
+    margin-bottom: 50px;                        /* 底部外邊距 50 像素 */
+}
+
+/* 按鈕容器的樣式 */
+.button-container {
+    display: flex;                              /* 使用彈性盒子布局 */
+    flex-direction: column;                     /* 垂直排列按鈕 */
+    gap: 20px;                                  /* 按鈕之間的間距為 20 像素 */
+    align-items: center;                        /* 水平置中對齊 */
+}
+
+/* === 開始遊戲按鈕樣式 === */
+.start-btn.button {
+    /* CSS 變數 (Custom Properties) - 用來儲存可重複使用的值 */
+    --width: 280px;                             /* 按鈕寬度變數 */
+    --height: 70px;                             /* 按鈕高度變數 */
+    --tooltip-height: 35px;                     /* 工具提示高度變數 */
+    --tooltip-width: 150px;                     /* 工具提示寬度變數 */
+    --gap-between-tooltip-to-button: 18px;      /* 工具提示與按鈕間距變數 */
+    --button-color: linear-gradient(135deg, #1B44BF 0%, #4A6FE7 50%, #0F2A8A 100%); /* 按鈕漸層顏色變數 */
+    --tooltip-color: #fff;                      /* 工具提示顏色變數 */
+    
+    width: var(--width);                        /* 使用變數設定寬度 */
+    height: var(--height);                      /* 使用變數設定高度 */
+    background: var(--button-color);            /* 使用變數設定背景漸層 */
+    position: relative;                         /* 相對定位，作為子元素絕對定位的參考點 */
+    text-align: center;                         /* 文字置中對齊 */
+    border-radius: 20px;                        /* 圓角半徑 20 像素 */
+    font-family: "Arial";                       /* 字體設定為 Arial */
+    transition: all 0.3s ease;                 /* 所有屬性變化時的過渡動畫，持續 0.3 秒 */
+    cursor: pointer;                            /* 滑鼠指標變成手指形狀 */
+    border: 3px solid #fff;                     /* 白色邊框，寬度 3 像素 */
+    box-shadow: 0 8px 20px rgba(27, 68, 191, 0.3), inset 0 2px 4px rgba(255, 255, 255, 0.2); /* 陰影效果 */
+    overflow: hidden;                           /* 隱藏超出按鈕範圍的內容 */
+}
+
+/* 工具提示背景樣式 (使用偽元素 ::before) */
+.start-btn.button::before {
+    position: absolute;                         /* 絕對定位 */
+    content: attr(data-tooltip);               /* 內容來自 HTML 的 data-tooltip 屬性 */
+    width: var(--tooltip-width);               /* 使用變數設定寬度 */
+    height: var(--tooltip-height);             /* 使用變數設定高度 */
+    background-color: #555;                    /* 背景顏色為深灰色 */
+    font-size: 0.9rem;                         /* 字體大小 (rem 是相對於根元素的單位) */
+    color: #fff;                               /* 文字顏色為白色 */
+    border-radius: .25em;                      /* 圓角 */
+    line-height: var(--tooltip-height);       /* 行高等於工具提示高度，讓文字垂直置中 */
+    bottom: calc(var(--height) + var(--gap-between-tooltip-to-button) + 10px); /* 計算底部位置 */
+    left: calc(50% - var(--tooltip-width) / 2); /* 水平置中 */
+}
+
+/* 工具提示箭頭樣式 (使用偽元素 ::after) */
+.start-btn.button::after {
+    position: absolute;                         /* 絕對定位 */
+    content: '';                               /* 空內容 */
+    width: 0;                                  /* 寬度為 0 */
+    height: 0;                                 /* 高度為 0 */
+    border: 10px solid transparent;            /* 透明邊框，用來製作三角形 */
+    border-top-color: #555;                    /* 只有上邊框有顏色，形成向下的箭頭 */
+    left: calc(50% - 10px);                    /* 水平置中 */
+    bottom: calc(100% + var(--gap-between-tooltip-to-button) - 10px); /* 底部位置 */
+}
+
+/* 設定工具提示的初始狀態為隱藏 */
+.start-btn.button::after, .start-btn.button::before {
+    opacity: 0;                                /* 透明度為 0 (完全透明) */
+    visibility: hidden;                        /* 隱藏元素 */
+    transition: all 0.5s;                      /* 過渡動畫 */
+}
+
+/* 按鈕文字樣式 */
+.start-btn .text {
+    display: flex;                             /* 使用彈性盒子布局 */
+    align-items: center;                       /* 垂直置中 */
+    justify-content: center;                   /* 水平置中 */
+    font-size: 22px;                           /* 字體大小 */
+    font-weight: bold;                         /* 粗體字 */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 文字陰影效果 */
+    letter-spacing: 1px;                       /* 字母間距 */
+}
+
+/* 設定按鈕內部元素的共同樣式 */
+.start-btn .button-wrapper, .start-btn .text, .start-btn .icon {
+    overflow: hidden;                          /* 隱藏溢出內容 */
+    position: absolute;                        /* 絕對定位 */
+    width: 100%;                              /* 寬度 100% */
+    height: 100%;                             /* 高度 100% */
+    left: 0;                                  /* 左邊對齊 */
+    color: #fff;                              /* 文字顏色為白色 */
+}
+
+/* 文字初始位置 */
+.start-btn .text {
+    top: 0;                                   /* 頂部對齊 */
+}
+
+/* 文字和圖示的過渡動畫 */
+.start-btn .text, .start-btn .icon {
+    transition: top 0.5s;                     /* top 屬性變化時的過渡動畫 */
+}
+
+/* 圖示樣式和初始位置 */
+.start-btn .icon {
+    color: #fff;                              /* 文字顏色為白色 */
+    top: 100%;                                /* 初始位置在按鈕下方 (隱藏) */
+    display: flex;                            /* 使用彈性盒子布局 */
+    align-items: center;                      /* 垂直置中 */
+    justify-content: center;                  /* 水平置中 */
+    font-size: 18px;                          /* 字體大小 */
+    font-weight: bold;                        /* 粗體字 */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* 文字陰影 */
+    letter-spacing: 2px;                      /* 字母間距 */
+}
+
+/* 滑鼠懸停時的按鈕樣式 */
+.start-btn.button:hover {
+    background: linear-gradient(135deg, #0F2A8A 0%, #1B44BF 50%, #0A1F6B 100%); /* 改變背景漸層 */
+    transform: translateY(-5px) scale(1.02);  /* 向上移動 5 像素，並放大到 102% */
+    box-shadow: 0 15px 35px rgba(27, 68, 191, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.3); /* 加強陰影效果 */
+}
+
+/* 懸停時文字向上移動消失 */
+.start-btn.button:hover .text {
+    top: -100%;                               /* 移動到按鈕上方 (隱藏) */
+}
+
+/* 懸停時圖示從下方移入 */
+.start-btn.button:hover .icon {
+    top: 0;                                   /* 移動到按鈕中央顯示 */
+}
+
+/* 懸停時顯示工具提示 */
+.start-btn.button:hover:before, .start-btn.button:hover:after {
+    opacity: 1;                               /* 透明度變為 1 (完全不透明) */
+    visibility: visible;                      /* 顯示元素 */
+}
+
+/* 懸停時工具提示箭頭位置調整 */
+.start-btn.button:hover:after {
+    bottom: calc(var(--height) + var(--gap-between-tooltip-to-button) - 20px);
+}
+
+/* 懸停時工具提示背景位置調整 */
+.start-btn.button:hover:before {
+    bottom: calc(var(--height) + var(--gap-between-tooltip-to-button));
+}
+
+/* === 返回官網按鈕樣式 === */
+.home-btn {
+    background: white;                         /* 白色背景 */
+    text-align: center;                       /* 文字置中 */
+    width: 192px;                             /* 寬度 192 像素 */
+    border-radius: 16px;                      /* 圓角 16 像素 */
+    height: 56px;                             /* 高度 56 像素 */
+    position: relative;                       /* 相對定位 */
+    color: black;                             /* 文字顏色為黑色 */
+    font-size: 16px;                          /* 字體大小 */
+    font-weight: 600;                         /* 字體粗細 (600 是半粗體) */
+    border: none;                             /* 無邊框 */
+    cursor: pointer;                          /* 滑鼠指標變成手指 */
+    overflow: hidden;                         /* 隱藏溢出內容 */
+}
+
+/* 按鈕內的圖示區域 */
+.home-btn-icon {
+    background: #4ade80;                      /* 綠色背景 */
+    border-radius: 12px;                      /* 圓角 12 像素 */
+    height: 48px;                             /* 高度 48 像素 */
+    width: 25%;                               /* 寬度為按鈕的 25% */
+    display: flex;                            /* 彈性盒子布局 */
+    align-items: center;                      /* 垂直置中 */
+    justify-content: center;                  /* 水平置中 */
+    position: absolute;                       /* 絕對定位 */
+    left: 4px;                                /* 距離左邊 4 像素 */
+    top: 4px;                                 /* 距離頂部 4 像素 */
+    z-index: 10;                              /* 堆疊順序 (數字越大越在上層) */
+    transition: width 0.5s ease;             /* 寬度變化的過渡動畫 */
+}
+
+/* 懸停時圖示區域展開 */
+.home-btn:hover .home-btn-icon {
+    width: 184px;                             /* 寬度擴展到 184 像素 */
+}
+
+/* 按鈕文字樣式 */
+.home-btn-text {
+    transform: translateX(15px);               /* 向右移動 8 像素 */
+    margin: 0;                                /* 移除預設邊距 */
+    font-size: 12px;                          /* 字體大小 */
+    font-weight: 600;                         /* 字體粗細 */
+}
+
+/* === 版權標示樣式 === */
+.footer {
+    position: absolute;                       /* 絕對定位 */
+    bottom: 20px;                            /* 距離底部 20 像素 */
+    left: 50%;                               /* 從左邊 50% 開始 */
+    transform: translateX(-50%);             /* 向左移動自身寬度的 50%，達到水平置中效果 */
+    display: flex;                           /* 彈性盒子布局 */
+    align-items: center;                     /* 垂直置中 */
+    justify-content: center;                 /* 水平置中 */
+    gap: 8px;                                /* 子元素間距 8 像素 */
+    color: rgba(0, 0, 0, 0.7);               /* 黑色，透明度 70% */
+    font-size: 12px;                         /* 字體大小 */
+}
+
+/* 版權標示中的 Logo */
+.footer-logo {
+    width: 20px;                             /* 寬度 20 像素 */
+    height: 20px;                            /* 高度 20 像素 */
+}
+
+/* === RWD 響應式設計 === */
+/* 當螢幕寬度小於或等於 768px 時 (平板尺寸) */
+@media (max-width: 768px) {
+    .logo {
+        max-width: 80vw;                     /* 最大寬度為視窗寬度的 80% */
+        margin-bottom: 30px;                 /* 底部邊距減少到 30px */
+    }
+    
+    .button {
+        width: 200px;                        /* 按鈕寬度縮小 */
+        height: 50px;                        /* 按鈕高度縮小 */
+        font-size: 16px;                     /* 字體縮小 */
+    }
+    
+    .home-btn {
+        width: 180px;                        /* 返回按鈕寬度縮小 */
+        height: 45px;                        /* 返回按鈕高度縮小 */
+        font-size: 14px;                     /* 字體縮小 */
+        padding: 8px 16px;                   /* 內邊距調整 */
+    }
+    
+    .home-btn-text {
+        font-size: 14px;                     /* 文字大小縮小 */
+    }
+    
+    .footer {
+        font-size: 12px;                     /* 版權文字保持 12px */
+        padding: 15px;                       /* 增加內邊距 */
+    }
+    
+    .footer-logo {
+        height: 25px;                        /* Logo 稍微放大 */
+    }
+}
+
+/* 當螢幕寬度小於或等於 480px 時 (手機尺寸) */
+@media (max-width: 480px) {
+    .logo {
+        max-width: 90vw;                     /* 最大寬度增加到視窗寬度的 90% */
+        margin-bottom: 20px;                 /* 底部邊距進一步縮小 */
+    }
+    
+    .button {
+        width: 180px;                        /* 按鈕寬度進一步縮小 */
+        height: 45px;                        /* 按鈕高度進一步縮小 */
+        font-size: 14px;                     /* 字體進一步縮小 */
+    }
+    
+    .button .text {
+        font-size: 14px;                     /* 按鈕文字縮小 */
+    }
+    
+    .button .icon {
+        font-size: 10px;                     /* 按鈕圖示縮小 */
+    }
+    
+    .footer {
+        font-size: 10px;                     /* 版權文字縮小到 10px */
+        padding: 10px;                       /* 內邊距縮小 */
+    }
+    
+    .footer-logo {
+        height: 20px;                        /* Logo 回到原始大小 */
+    }
+}
